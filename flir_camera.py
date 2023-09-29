@@ -113,7 +113,7 @@ def main():
 
     print('Number of FLIR cameras detected: %d' % num_cameras)
     print('camera IPs = %s' % camera_ips)
-    print(camera_ips)
+    #print(camera_ips)
 
     cam_vars = []  # Create an empty list to store camera objects
 
@@ -139,7 +139,25 @@ def main():
 
     try:
         # Do your image acquisition and processing here
+        image_result = cam.GetNextImage()
 
+        # Check if the image is complete
+        if image_result.IsIncomplete():
+            print("Image capture incomplete")
+        else:
+            # Convert the image to Mono8 format (if needed)
+            converted_image = image_result.Convert(PySpin.PixelFormat_Mono8, PySpin.HQ_LINEAR)
+
+            # Specify the file path to save the image
+            file_path = "test_image.jpg"  # Replace with your desired file path
+
+            # Save the image to the specified file path
+            converted_image.Save(file_path)
+
+            print(f"Image saved to {file_path}")
+
+    # Release the image to free up resources
+        
         # When you're done with the cameras, release them
         for cam in cam_vars:
             cam.EndAcquisition()

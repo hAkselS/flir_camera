@@ -1,0 +1,5 @@
+# Ignore all .jpg files
+*.jpg
+
+# Ignore .DS_Store files (macOS system file)
+.DS_Store
